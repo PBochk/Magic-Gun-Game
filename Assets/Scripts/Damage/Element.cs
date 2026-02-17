@@ -1,9 +1,3 @@
-namespace cardgameinterfaces;
-
-public enum Element
+public abstract class Element
 {
-    None,
-    Wind,
-    Nature,
-    //..etc
 }

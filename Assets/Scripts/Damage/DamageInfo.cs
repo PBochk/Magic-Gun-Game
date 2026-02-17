@@ -1,9 +1,7 @@
-namespace cardgameinterfaces;
-
-public struct DamageInfo
+public readonly struct DamageInfo
 {
-    public BattleEntity source;
-    public int damage;
-    public int staminaDamage;
-    public Element element;
+    public BattleEntity Source { get; }
+    public int DamageToHealth { get; }
+    public int DamageToStamina { get; }
+    public Element Element { get; }
 }

@@ -1,6 +1,4 @@
-namespace cardgameinterfaces;
-
-public enum EffectType
-{
+ public enum EffectType
+ {
     Buff, Debuff, Neutral
-}
+ }
