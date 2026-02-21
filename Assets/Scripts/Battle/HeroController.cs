@@ -1,4 +1,4 @@
-﻿public sealed class Hero : BattleEntity
+﻿public sealed class HeroController : BattleEntityController
 {
     public override EffectAppliedEventArgs ApplyEffect()
     {

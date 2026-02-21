@@ -7,7 +7,7 @@ public abstract class Effect
 {
     public int Amount { get; }
     public EffectType Type { get; }
-    public BattleEntity Source { get; }
+    public BattleEntityController Source { get; }
     //another possible fields in derivatives like damage
 
     public event Action OnApplied;

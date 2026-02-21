@@ -1,4 +1,4 @@
-﻿public abstract class EnemyBodyPart : BattleEntity
+﻿public abstract class EnemyBodyPartController : BattleEntityController
 {
     public override DamageTakenEventArgs TakeDamage(DamageInfo damageInfo)
     {

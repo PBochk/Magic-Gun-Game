@@ -5,7 +5,7 @@ using UnityEngine;
 /// This is a class supposed to represent a battle entity, such as player or enemy bodyparts
 /// might not be Monobehaviour, and interface/abstract class instead
 /// </summary>
-public abstract class BattleEntity : MonoBehaviour
+public abstract class BattleEntityController : MonoBehaviour
 {
     public int CurrentHealth { get; protected set; }
     

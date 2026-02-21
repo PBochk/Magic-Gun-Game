@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class EnemyController : MonoBehaviour
 {
-    public IReadOnlyList<EnemyBodyPart> BodyParts => bodyParts;
+    public IReadOnlyList<EnemyBodyPartController> BodyParts => bodyParts;
 
-    [SerializeField] private EnemyBodyPart[] bodyParts;
+    [SerializeField] private EnemyBodyPartController[] bodyParts;
 
     #region Validation
     public void OnValidate()
@@ -17,17 +17,17 @@ public abstract class EnemyController : MonoBehaviour
 
     private void RemoveDuplicates()
     {
-        HashSet<EnemyBodyPart> uniqueParts = new();
+        HashSet<EnemyBodyPartController> uniqueParts = new();
         var wasChanged = false;
 
         for (var i = 0; i < bodyParts.Length; i++)
         {
-            EnemyBodyPart part = bodyParts[i];
+            EnemyBodyPartController partController = bodyParts[i];
 
-            if (part == null) continue;
-            if (uniqueParts.Add(part)) continue;
+            if (partController == null) continue;
+            if (uniqueParts.Add(partController)) continue;
             
-            LogDuplicateBodyPart(part);
+            LogDuplicateBodyPart(partController);
             bodyParts[i] = null;
             wasChanged = true;
         }
@@ -39,9 +39,9 @@ public abstract class EnemyController : MonoBehaviour
     private void RemoveNullEntries() =>
         bodyParts = bodyParts.Where(p => p != null).ToArray();
 
-    private void LogDuplicateBodyPart(EnemyBodyPart part) =>
+    private void LogDuplicateBodyPart(EnemyBodyPartController partController) =>
         Debug.LogWarning(
-            $"Duplicate body part '{part.name}' was removed from the list on object {gameObject.name}",
+            $"Duplicate body part '{partController.name}' was removed from the list on object {gameObject.name}",
             gameObject);
     #endregion
 }
