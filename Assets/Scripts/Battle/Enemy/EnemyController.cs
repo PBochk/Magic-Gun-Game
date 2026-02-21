@@ -12,33 +12,28 @@ public abstract class EnemyController : MonoBehaviour
     public void OnValidate()
     {
         if (bodyParts == null || bodyParts.Length == 0) return;
-        if (!RemoveDuplicates()) return;
-
-        RemoveNullEntries();
+        RemoveDuplicates();
     }
 
-    private bool RemoveDuplicates()
+    private void RemoveDuplicates()
     {
         HashSet<EnemyBodyPart> uniqueParts = new();
-        return MarkDuplicateEntries(uniqueParts);
-    }
-
-    private bool MarkDuplicateEntries(HashSet<EnemyBodyPart> uniqueParts)
-    {
-        var duplicatesFound = false;
+        var wasChanged = false;
 
         for (var i = 0; i < bodyParts.Length; i++)
         {
             EnemyBodyPart part = bodyParts[i];
 
-            if (part == null || uniqueParts.Add(part)) continue;
-
+            if (part == null) continue;
+            if (uniqueParts.Add(part)) continue;
+            
             LogDuplicateBodyPart(part);
             bodyParts[i] = null;
-            duplicatesFound = true;
+            wasChanged = true;
         }
 
-        return duplicatesFound;
+        if (wasChanged)
+            RemoveNullEntries();;
     }
 
     private void RemoveNullEntries() =>
