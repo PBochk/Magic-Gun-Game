@@ -6,7 +6,7 @@ public abstract class EnemyBodyPartController : BattleEntityController
 
     public int CurrentStamina { get; private set; }
 
-    [SerializeField, Range(0, int.MaxValue)] private int maxStamina;
+    [SerializeField, Range(1, byte.MaxValue)] private int maxStamina;
     [SerializeField] private EnemyBodyPartTags tags;
     [SerializeField] private bool isVital;
     private bool WasNotBrokenThisTurn => !wasBrokenThisTurn;

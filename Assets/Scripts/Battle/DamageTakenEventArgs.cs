@@ -7,7 +7,7 @@ public sealed class DamageTakenEventArgs : EventArgs
      public int DamageToStaminaReceived { get; }
      public bool IsBodyPartElementBreak { get; }
      public bool IsBodyPartDefeated { get; }
-     public bool WasKilled { get; }
+     public bool WasKilled { get; }  //may be implemented or removed in the future
      //...etc, can be extended
      
      public DamageTakenEventArgs(

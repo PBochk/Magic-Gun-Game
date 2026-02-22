@@ -7,8 +7,7 @@ using UnityEngine;
 /// </summary>
 public abstract class BattleEntityController : MonoBehaviour
 {
-    [field:SerializeField, Range(0, int.MaxValue)] public int MaxHealth { get; private  set; }
-    [field:SerializeField] public bool IsVital { get; private  set; }
+    [SerializeField, Range(1, byte.MaxValue)] private int maxHealth;
 
     public bool IsDefeated { get; private set; }
 
@@ -47,7 +46,8 @@ public abstract class BattleEntityController : MonoBehaviour
             damageToStaminaReceived,
             isBodyPartElementBreak,
             isBodyPartDefeated,
-            false
+            
+            false //may be implemented or removed in the future
         );
         OnDamaged?.Invoke(damageTakenEventArgs);
         return damageTakenEventArgs;
@@ -57,7 +57,7 @@ public abstract class BattleEntityController : MonoBehaviour
 
     protected virtual void Awake()
     {
-        CurrentHealth = MaxHealth;
+        CurrentHealth = maxHealth;
     }
 
     private int DecreaseHealth(int healthDecline)
@@ -66,7 +66,7 @@ public abstract class BattleEntityController : MonoBehaviour
         
         int healthBeforeTakenDamage = CurrentHealth;
         CurrentHealth = 
-            Mathf.Clamp(CurrentHealth-healthDecline, 0, MaxHealth);
+            Mathf.Clamp(CurrentHealth-healthDecline, 0, maxHealth);
         int receivedHealthDecline = healthBeforeTakenDamage - CurrentHealth;
         
         return receivedHealthDecline;
