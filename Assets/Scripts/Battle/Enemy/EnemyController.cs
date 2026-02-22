@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,13 +6,36 @@ using UnityEngine;
 public abstract class EnemyController : MonoBehaviour
 {
     public IReadOnlyList<EnemyBodyPartController> BodyParts => bodyParts;
+    public event Action<EnemyController> OnDead;
+    
+    [SerializeField] private List<EnemyBodyPartController> bodyParts;
+    
+    
+    private void BodyPartDie(BattleEntityController bodyPart)
+    {
+        if (bodyPart.IsVital)
+            Die();
+    }
 
-    [SerializeField] private EnemyBodyPartController[] bodyParts;
+    private void Start()
+    {
+        foreach (EnemyBodyPartController bodyPart in bodyParts)
+        {
+            bodyPart.OnDefeated += BodyPartDie;
+        }
+    }
+    
+    private void Die()
+    {
+        OnDead?.Invoke(this);
+        OnDead = null;
+    }
+    
 
     #region Validation
     public void OnValidate()
     {
-        if (bodyParts == null || bodyParts.Length == 0) return;
+        if (bodyParts == null || bodyParts.Count == 0) return;
         RemoveDuplicates();
     }
 
@@ -20,7 +44,7 @@ public abstract class EnemyController : MonoBehaviour
         HashSet<EnemyBodyPartController> uniqueParts = new();
         var wasChanged = false;
 
-        for (var i = 0; i < bodyParts.Length; i++)
+        for (var i = 0; i < bodyParts.Count; i++)
         {
             EnemyBodyPartController partController = bodyParts[i];
 
@@ -33,11 +57,14 @@ public abstract class EnemyController : MonoBehaviour
         }
 
         if (wasChanged)
-            RemoveNullEntries();;
+            RemoveNullEntries();
     }
 
-    private void RemoveNullEntries() =>
-        bodyParts = bodyParts.Where(p => p != null).ToArray();
+    private void RemoveNullEntries()
+    {
+        bodyParts = (List<EnemyBodyPartController>)
+            from bodyPart in bodyParts where bodyPart != null select bodyPart;
+    }
 
     private void LogDuplicateBodyPart(EnemyBodyPartController partController) =>
         Debug.LogWarning(

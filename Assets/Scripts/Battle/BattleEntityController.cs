@@ -8,12 +8,15 @@ using UnityEngine;
 public abstract class BattleEntityController : MonoBehaviour
 {
     [field:SerializeField] public int MaxHealth { get; private  set; }
+    [field: SerializeField] public bool IsVital { get; private  set; }
+
+    public bool IsDefeated { get; private set; }
 
     public int CurrentHealth { get; private set; }
     
     public event Action<DamageTakenEventArgs> OnDamaged;
     public event Action<EffectAppliedEventArgs> OnEffectApplied;
-    public event Action<BattleEntityController> OnDead;
+    public event Action<BattleEntityController> OnDefeated;
     //etc...
 
     /// <summary>
@@ -64,11 +67,11 @@ public abstract class BattleEntityController : MonoBehaviour
     {
         if (CurrentHealth != 0) return false;
         
-        OnDead?.Invoke(this);
+        OnDefeated?.Invoke(this);
         
         OnDamaged = null;
         OnEffectApplied = null;
-        OnDead = null;
+        OnDefeated = null;
         
         return true;
     }
