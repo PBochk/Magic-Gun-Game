@@ -2,10 +2,13 @@
 
 public abstract class EnemyBodyPartController : BattleEntityController
 {
-    [field:SerializeField, Range(0, int.MaxValue)]public int MaxStamina { get; private set; }
-    
+    public bool IsVital => isVital;
+
     public int CurrentStamina { get; private set; }
 
+    [SerializeField, Range(0, int.MaxValue)] private int maxStamina;
+    [SerializeField] private EnemyBodyPartTags tags;
+    [SerializeField] private bool isVital;
     private bool WasNotBrokenThisTurn => !wasBrokenThisTurn;
     private bool wasBrokenThisTurn;
     
@@ -24,7 +27,7 @@ public abstract class EnemyBodyPartController : BattleEntityController
     protected override void Awake()
     {
         base.Awake();
-        CurrentStamina = MaxStamina;
+        CurrentStamina = maxStamina;
     }
     
     private int DecreaseStamina(int staminaDecline)
@@ -33,7 +36,7 @@ public abstract class EnemyBodyPartController : BattleEntityController
         
         int staminaBeforeTakenDamage = CurrentHealth;
         CurrentStamina = 
-            Mathf.Clamp(CurrentStamina-staminaDecline, 0, MaxStamina);
+            Mathf.Clamp(CurrentStamina-staminaDecline, 0, maxStamina);
         int receivedStaminaDecline = staminaBeforeTakenDamage - CurrentStamina;
         return receivedStaminaDecline;
     }

@@ -13,7 +13,7 @@ public abstract class EnemyController : MonoBehaviour
     
     private void BodyPartDie(BattleEntityController bodyPart)
     {
-        if (bodyPart.IsVital)
+        if( ((EnemyBodyPartController)bodyPart).IsVital)
             Die();
     }
 
