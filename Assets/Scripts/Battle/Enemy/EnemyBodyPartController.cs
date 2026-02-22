@@ -2,7 +2,7 @@
 
 public abstract class EnemyBodyPartController : BattleEntityController
 {
-    [field:SerializeField]public int MaxStamina { get; private set; }
+    [field:SerializeField, Range(0, int.MaxValue)]public int MaxStamina { get; private set; }
     
     public int CurrentStamina { get; private set; }
 

@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public abstract class BattleEntityController : MonoBehaviour
 {
-    [field:SerializeField] public int MaxHealth { get; private  set; }
-    [field: SerializeField] public bool IsVital { get; private  set; }
+    [field:SerializeField, Range(0, int.MaxValue)] public int MaxHealth { get; private  set; }
+    [field:SerializeField] public bool IsVital { get; private  set; }
 
     public bool IsDefeated { get; private set; }
 
@@ -26,6 +26,12 @@ public abstract class BattleEntityController : MonoBehaviour
     /// <returns></returns>
     public DamageTakenEventArgs TakeDamage(DamageInfo damageInfo)
     {
+        if (IsDefeated)
+        {
+            LogTryingDamageDefeatedBattleEntity();
+            return null;
+        }
+        
         var damageToStaminaReceived = 0;
         var isBodyPartElementBreak = false;
         
@@ -34,14 +40,17 @@ public abstract class BattleEntityController : MonoBehaviour
         ApplyDamageConsequences(damageInfo,
             ref damageToStaminaReceived, ref isBodyPartElementBreak);
         
-        return new DamageTakenEventArgs(
+        DamageTakenEventArgs damageTakenEventArgs = 
+            new DamageTakenEventArgs(
             damageInfo,
             damageToHealthReceived,
             damageToStaminaReceived,
             isBodyPartElementBreak,
             isBodyPartDefeated,
             false
-            );
+        );
+        OnDamaged?.Invoke(damageTakenEventArgs);
+        return damageTakenEventArgs;
     }
     
     public abstract EffectAppliedEventArgs ApplyEffect();
@@ -53,12 +62,13 @@ public abstract class BattleEntityController : MonoBehaviour
 
     private int DecreaseHealth(int healthDecline)
     {
-        if (healthDecline < 0) LogIncorrectHealthDecline();
+        if (healthDecline < 0) LogIncorrectHealthDecline(healthDecline);
         
         int healthBeforeTakenDamage = CurrentHealth;
         CurrentHealth = 
             Mathf.Clamp(CurrentHealth-healthDecline, 0, MaxHealth);
         int receivedHealthDecline = healthBeforeTakenDamage - CurrentHealth;
+        
         return receivedHealthDecline;
     }
     
@@ -66,6 +76,8 @@ public abstract class BattleEntityController : MonoBehaviour
     private bool HandleDefeat()
     {
         if (CurrentHealth != 0) return false;
+        
+        IsDefeated = true;
         
         OnDefeated?.Invoke(this);
         
@@ -80,6 +92,10 @@ public abstract class BattleEntityController : MonoBehaviour
         (DamageInfo damageInfo,ref int damageToStaminaReceived, ref bool isBodyPartElementBreak);
     
     
-    private static void LogIncorrectHealthDecline() =>
-        Debug.LogWarning("Taking damage to health is negative");
+    private void LogIncorrectHealthDecline(int healthDecline) =>
+        Debug.LogWarning($"Taking negative ({healthDecline}) damage to health of {gameObject.name}");
+    
+    private void LogTryingDamageDefeatedBattleEntity() =>
+        Debug.LogWarning($"Trying to take damage to defeated {gameObject.name}");
+    
 }
