@@ -11,7 +11,7 @@ public abstract class EnemyBodyPartController : BattleEntityController
     [SerializeField] private EnemyBodyPartTags tags;
     [SerializeField] private bool isVital;
 
-    protected virtual BodyPartActionService ActionService { get; set; }
+    protected virtual BodyPartActionService ActionService => actionService;
     [CanBeNull] protected BodyPartActionService actionService;
 
     private bool WasNotBrokenThisTurn => !wasBrokenThisTurn;
@@ -41,7 +41,7 @@ public abstract class EnemyBodyPartController : BattleEntityController
     {
         if (staminaDecline < 0) LogIncorrectStaminaDecline();
         
-        int staminaBeforeTakenDamage = CurrentHealth;
+        int staminaBeforeTakenDamage = CurrentStamina;
         currentStamina = 
             Mathf.Clamp(CurrentStamina-staminaDecline, 0, maxStamina);
         int receivedStaminaDecline = staminaBeforeTakenDamage - CurrentStamina;
