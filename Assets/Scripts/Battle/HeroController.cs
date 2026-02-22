@@ -4,9 +4,7 @@
     {
         throw new System.NotImplementedException();
     }
-
-    public override DamageTakenEventArgs TakeDamage(DamageInfo damageInfo)
-    {
-        throw new System.NotImplementedException();
-    }
+    
+    protected override void ApplyDamageConsequences
+        (DamageInfo damageInfo, ref int damageToStaminaReceived, ref bool isBodyPartElementBreak) {}
 }
