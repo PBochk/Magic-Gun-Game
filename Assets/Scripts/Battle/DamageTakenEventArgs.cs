@@ -7,7 +7,7 @@ public sealed class DamageTakenEventArgs : EventArgs
      public int DamageToStaminaReceived { get; }
      public bool IsBodyPartElementBreak { get; }
      public bool IsBodyPartDefeated { get; }
-     public bool WasDefeated { get; }
+     public bool WasKilled { get; }
      //...etc, can be extended
      
      public DamageTakenEventArgs(
@@ -16,13 +16,13 @@ public sealed class DamageTakenEventArgs : EventArgs
          int damageToStaminaReceived,
          bool isBodyPartElementBreak,
          bool isBodyPartDefeated,
-         bool wasDefeated)
+         bool wasKilled)
      {
          DamageInfo = damageInfo;
          DamageToHealthReceived = damageToHealthReceived;
          DamageToStaminaReceived = damageToStaminaReceived;
          IsBodyPartElementBreak = isBodyPartElementBreak;
          IsBodyPartDefeated = isBodyPartDefeated;
-         WasDefeated = wasDefeated;
+         WasKilled = wasKilled;
      }
  }
