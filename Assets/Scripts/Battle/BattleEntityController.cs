@@ -7,15 +7,19 @@ using UnityEngine;
 /// </summary>
 public abstract class BattleEntityController : MonoBehaviour
 {
-    [SerializeField, Range(1, byte.MaxValue)] private int maxHealth;
-
     public bool IsDefeated { get; private set; }
 
-    public int CurrentHealth { get; private set; }
-    
+    public int CurrentHealth => currentHealth ??= maxHealth;
+        
     public event Action<DamageTakenEventArgs> OnDamaged;
     public event Action<EffectAppliedEventArgs> OnEffectApplied;
     public event Action<BattleEntityController> OnDefeated;
+    
+    [SerializeField, Range(1, byte.MaxValue)] private int maxHealth;
+
+    private EffectService effectService;
+
+    private int? currentHealth;
     //etc...
 
     /// <summary>
@@ -55,17 +59,12 @@ public abstract class BattleEntityController : MonoBehaviour
     
     public abstract EffectAppliedEventArgs ApplyEffect();
 
-    protected virtual void Awake()
-    {
-        CurrentHealth = maxHealth;
-    }
-
     private int DecreaseHealth(int healthDecline)
     {
         if (healthDecline < 0) LogIncorrectHealthDecline(healthDecline);
         
         int healthBeforeTakenDamage = CurrentHealth;
-        CurrentHealth = 
+        currentHealth = 
             Mathf.Clamp(CurrentHealth-healthDecline, 0, maxHealth);
         int receivedHealthDecline = healthBeforeTakenDamage - CurrentHealth;
         

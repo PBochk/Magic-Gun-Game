@@ -143,10 +143,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee7d3d9a4d1849999d28c9309a37b12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestAttackBodyPart
-  <MaxHealth>k__BackingField: 0
-  maxStamina: 0
+  maxHealth: 1
+  maxStamina: 1
   tags: 0
   isVital: 0
+  actionService:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &4694766695118350595 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4891915868413900037, guid: e3d63011e6884e843b8e849d7771d38f, type: 3}
@@ -164,10 +171,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c549a91296586fd4cb1d965d0f5e6914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestVitalBodyPart
-  <MaxHealth>k__BackingField: 0
+  maxHealth: 0
   maxStamina: 0
   tags: 0
   isVital: 0
+  actionService:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &4765551438747407175 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4546919045956300991, guid: e3d63011e6884e843b8e849d7771d38f, type: 3}
@@ -185,7 +199,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fed756c59b405b8d5b75b10af3dd79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestDodgeBodyPart
-  <MaxHealth>k__BackingField: 1
-  maxStamina: 0
+  maxHealth: 1
+  maxStamina: 1
   tags: 0
   isVital: 0
+  actionService:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

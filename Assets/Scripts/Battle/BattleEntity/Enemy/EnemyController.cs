@@ -10,10 +10,9 @@ public abstract class EnemyController : MonoBehaviour
     
     [SerializeField] private List<EnemyBodyPartController> bodyParts;
     
-    
-    private void BodyPartDie(BattleEntityController bodyPart)
+    private void DieBodyPart(BattleEntityController bodyPart)
     {
-        if( ((EnemyBodyPartController)bodyPart).IsVital)
+        if(((EnemyBodyPartController)bodyPart).IsVital)
             Die();
     }
 
@@ -21,8 +20,9 @@ public abstract class EnemyController : MonoBehaviour
     {
         foreach (EnemyBodyPartController bodyPart in bodyParts)
         {
-            bodyPart.OnDefeated += BodyPartDie;
+            bodyPart.OnDefeated += DieBodyPart;
         }
+        
     }
     
     private void Die()
@@ -33,7 +33,7 @@ public abstract class EnemyController : MonoBehaviour
     
 
     #region Validation
-    public void OnValidate()
+    private void OnValidate()
     {
         if (bodyParts == null || bodyParts.Count == 0) return;
         RemoveDuplicates();

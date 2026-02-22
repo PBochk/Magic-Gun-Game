@@ -16,5 +16,9 @@ public class GameInitializerForDemoOnly : MonoBehaviour
     private void Start()
     {
         spawner.SpawnEnemy(testEnemy);
+        foreach (EnemyBodyPartController enemyBodyPart in testEnemy.BodyParts)
+        {
+            enemyBodyPart.ExecuteAction();
+        }
     }
 }
